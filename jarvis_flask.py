@@ -43,25 +43,29 @@ def validate_request(request):
 
 
 #  Routing definitions
-@app.route('/page_message',methods['POST'])
-def page_message():
-    """
-    This will pop up a message box when requesting attention to a case
-
-    :return:
+#  Message Receiver end point for custom dialogs
+@app.route('/message_receiver', methods=['Post'])
+def message_receiver():
+    """Processes the incoming custom message
+    Validates the sender
+    Opens a dialog with the requester
     """
     validate_request(request)
 
-    #  Parse the payload
-    form_json = json.loads(request.form["payload"])
+    message_action = json.loads(request.form["payload"])
+    user_id = message_action["user"]["id"]
 
-
-
-
+    logging.debug("Message Action received:  %s", message_action)
+    logging.debug("UserID:  %s", user_id)
 
 
 #   Main execution section below
 if __name__ == '__main__':
+    """
+    Flask is going to be running under Apache and wsgi
+    So we don't actually have to fire up the flask server 
+    Just have it listening.
+    """
 
     #  Turn on Logging - cause lord knows I need it
     logging.basicConfig(
@@ -77,6 +81,5 @@ if __name__ == '__main__':
 
     logging.info("Starting Flask")
 
-    app = Flask(__name__)
-
-    app.run(debug=True)
+   # app = Flask(__name__)
+   # app.run(debug=True)
