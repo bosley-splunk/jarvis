@@ -64,7 +64,7 @@ def validate_request(request):
 
     #  Get the body of the request.  This was seriously a pain.
     request_body = request.get_data()
-    request_body = request_body.encode('utf-8')
+    request_body = request_body.decode('utf-8')
     version = "v0"
     version = version.encode('utf8')
     separator = ":"
