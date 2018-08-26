@@ -43,6 +43,14 @@ app = Flask(__name__)
 #  Define functions
 def validate_request(request):
     #  Validate the request is from Slack.
+    slack_signing_secret = app_config.get('Slack_Settings', 'slack_signing_secret')
+    request_timestamp = request.headers.get('X-Slack-Request-Timestamp')
+    request_body = request
+    version = "v0"
+    request_signature_line = version + ":" + request_timestamp + ":" + request_body
+
+    logging.debug("Signature Line is:  %s", request_signature_line)
+
     is_token_valid = request.form['token'] == app_config.get('Slack_Settings', 'verification_token')
     is_team_id_valid = request.form['team_id'] == app_config.get('Slack_Settings', 'team_id')
 
@@ -80,13 +88,24 @@ def message_receiver():
     logging.debug("UserID:  %s", user_id)
 
 
+
 @app.route('/heartbeat', methods=['POST'])
 def heartbeat():
 
     validate_request(request)
-
     heartbeat_message = {'text':  'I\'m Alive'}
     return jsonify(heartbeat_message)
+
+@app.route('/page_cs', methods=['POST'])
+def page_cs():
+    """
+    Processes /page_cs command -
+    end goal is to create a custom dialog requesting ticket number and priority
+    :return:
+    """
+    validate_request(request)
+
+
 
 #   Main execution section below
 #if __name__ == '__main__':
