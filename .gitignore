@@ -102,3 +102,6 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# Jarvis internal stuff
+jarvis_flask.cfg
