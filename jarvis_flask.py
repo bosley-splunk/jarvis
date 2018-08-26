@@ -95,7 +95,8 @@ def message_receiver():
 @app.route('/heartbeat', methods=['POST'])
 def heartbeat():
 
-    logging.debug("Payload = %s",request.form["payload"])
+    test = request.form('payload')
+    logging.debug("Payload = %s", request.form['payload])
     validate_request(request)
     heartbeat_message = {'text':  'I\'m Alive'}
     return jsonify(heartbeat_message)
