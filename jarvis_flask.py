@@ -58,6 +58,17 @@ def message_receiver():
     logging.debug("Message Action received:  %s", message_action)
     logging.debug("UserID:  %s", user_id)
 
+@app.route('/heartbeat', methods=['POST'])
+def heartbeat():
+
+    status=is_request_valid(request)
+
+    if not status:
+        heartbeat_message = {'text' :  'Sorry, your call wasn\'t authenticated - please contact your admin'}
+        return jsonify(heartbeat_message)
+    else:
+        heartbeat_message = {'text' :  'I\'m Alive'}
+        return jsonify(heartbeat_message)
 
 #   Main execution section below
 if __name__ == '__main__':
