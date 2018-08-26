@@ -19,7 +19,7 @@ Flask container to handle requests from Slack for JARVIS
 APP_CONFIG_FILE = "jarvis_flask.cfg"
 
 
-#  Define functions
+#  Define functionsddd
 def validate_request(request):
     #  Validate the request is from Slack.
     is_token_valid = request.form['token'] == app_config.get('Slack_Settings','verification_token')
