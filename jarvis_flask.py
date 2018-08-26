@@ -58,15 +58,18 @@ def validate_request(request):
     sent_slack_signature = request.headers.get('X-Slack-Signature')
     request_timestamp = request.headers.get('X-Slack-Request-Timestamp')
 
+
     #  Get the body of the request.  This was seriously a pain.
     request_body = request.get_data()
     request_body = request_body.decode("utf-8")
     version = "v0"
 
+
     #  Build the signature line
     request_signature_line = version + ":" + request_timestamp + ":" + request_body
+    encoded_line = request_signature_line.encode('utf-8')
 
-    logging.info("Request Signature Line:  %s", request_signature_line)
+    logging.info("Request Signature Line:  %s", encoded_line)
 
     #  Now to hash it
     Request_Signature = hmac.new(internal_slack_signing_secret, request_signature_line, hashlib.sha256)
