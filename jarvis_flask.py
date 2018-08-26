@@ -37,20 +37,18 @@ def validate_request(request):
 
         heartbeat_message = {'text' :  'Sorry, your call wasn\'t authenticated - please contact your admin'}
         return jsonify(heartbeat_message)
-        abort(403)
 
     else:
         logger.info('Authenticated Request - processing request')
 
-        validation = True
 
-    return validation
 
 #  Routing definitions
 @app.route('/page_message',methods['POST']
 def page_message():
 
     validate_request(request)
+
 
 
 
