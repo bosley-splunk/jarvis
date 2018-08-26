@@ -43,14 +43,14 @@ app = Flask(__name__)
 #  Define functions
 def validate_request(request):
     #  Validate the request is from Slack.
-    #internal_slack_signing_secret = app_config.get('Slack_Settings', 'slack_signing_secret')
-    #sent_slack_signing_secret = request.headers.get('X-Slack-Signature')
-    #request_timestamp = request.headers.get('X-Slack-Request-Timestamp')
-    #request_body = request.form["payload"]
-    #version = "v0"
-    #request_signature_line = version + ":" + request_timestamp + ":" + request_body
+    internal_slack_signing_secret = app_config.get('Slack_Settings', 'slack_signing_secret')
+    sent_slack_signing_secret = request.headers.get('X-Slack-Signature')
+    request_timestamp = request.headers.get('X-Slack-Request-Timestamp')
+    request_body = request.get_data()
+    version = "v0"
+    request_signature_line = version + ":" + request_timestamp + ":" + request_body
 
-    logging.info("In validation now")
+    logging.info("Request Signature Line:  %s",request_signature_line)
 
     #logging.debug("Signature Line is:  %s", request_signature_line)
 
@@ -94,9 +94,6 @@ def message_receiver():
 
 @app.route('/heartbeat', methods=['POST'])
 def heartbeat():
-
-    test = request.get_data()
-    logging.debug("Payload = %s", test)
     validate_request(request)
     heartbeat_message = {'text':  'I\'m Alive'}
     return jsonify(heartbeat_message)
