@@ -43,20 +43,20 @@ app = Flask(__name__)
 #  Define functions
 def validate_request(request):
     #  Validate the request is from Slack.
-    is_token_valid = request.form['token'] == app_config.get('Slack_Settings','verification_token')
-    is_team_id_valid = request.form['team_id'] == app_config.get('Slack_Settings','team_id')
+    is_token_valid = request.form['token'] == app_config.get('Slack_Settings', 'verification_token')
+    is_team_id_valid = request.form['team_id'] == app_config.get('Slack_Settings', 'team_id')
 
-    logger.debug('Token validation is:  %s',is_token_valid)
-    logger.debug('Team ID is:  %s',is_team_id_valid)
+    logger.debug('Token validation is:  %s', is_token_valid)
+    logger.debug('Team ID is:  %s', is_team_id_valid)
 
     if (is_token_valid == False) or (is_team_id_valid == False):
-        logger.warn('Invalid request recieved')
+        logger.warning('Invalid request received')
         logger.debug('Token Expected:  %s    Token Received:  %s',
-            app_config.get('Slack_Settings','verification_token'),
-            request.form['token']
-        )
+                     app_config.get('Slack_Settings','verification_token'),
+                     request.form['token']
+                     )
 
-        heartbeat_message = {'text' :  'Sorry, your call wasn\'t authenticated - please contact your admin'}
+        heartbeat_message = {'text':  'Sorry, your call wasn\'t authenticated - please contact your admin'}
         return jsonify(heartbeat_message)
 
     else:
@@ -79,13 +79,14 @@ def message_receiver():
     logging.debug("Message Action received:  %s", message_action)
     logging.debug("UserID:  %s", user_id)
 
+
 @app.route('/heartbeat', methods=['POST'])
 def heartbeat():
 
-    status=is_request_valid(request)
+    status=validate_request(request)
 
     if not status:
-        heartbeat_message = {'text' :  'Sorry, your call wasn\'t authenticated - please contact your admin'}
+        heartbeat_message = {'text' :  'Sorry, your call was not authenticated - please contact your admin'}
         return jsonify(heartbeat_message)
     else:
         heartbeat_message = {'text' :  'I\'m Alive'}
