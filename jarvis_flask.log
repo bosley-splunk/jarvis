@@ -1,4 +1,1 @@
-2018-08-25 18:16:44,978 - root - INFO - [4836] - (<module>:31) : Logging initialized.  Reading in Configs.
-2018-08-25 18:16:44,978 - root - INFO - [4836] - (<module>:35) : Starting Flask
-2018-08-25 18:16:44,993 - werkzeug - WARNING - [4836] - (_log:88) :  * Debugger is active!
-2018-08-25 18:16:44,999 - werkzeug - INFO - [4836] - (_log:88) :  * Debugger PIN: 101-933-047
+2018-08-26 12:23:47,990 - root - INFO - [10193] - (<module>:25) : Logging initialized.  Reading in Configs.

@@ -16,12 +16,13 @@ Flask container to handle requests from Slack for JARVIS
 """
 
 #  Static configs go here
-APP_CONFIG_FILE = "jarvis_flask.cfg"
+source_path = "/opt/projects/jarvis/"
+APP_CONFIG_FILE = os.path.join(source_path, "jarvis_flask.cfg")
 
 #  Reading in configs
 app_config = ConfigParser()
 app_config.read(APP_CONFIG_FILE)
-logging_dir=app_config['DEFAULT', 'source_path'] + "jarvis_flask.log"
+logging_dir=os.path.join(source_path, "jarvis_flask.log"
 
 
 #  Turn on Logging - cause lord knows I need it
