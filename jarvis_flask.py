@@ -52,7 +52,7 @@ def validate_request(request):
 
     logging.info("In validation now")
 
-    logging.debug("Signature Line is:  %s", request_signature_line)
+    #logging.debug("Signature Line is:  %s", request_signature_line)
 
     #is_token_valid = request.form['token'] == app_config.get('Slack_Settings', 'verification_token')
     #is_team_id_valid = request.form['team_id'] == app_config.get('Slack_Settings', 'team_id')
@@ -95,6 +95,7 @@ def message_receiver():
 @app.route('/heartbeat', methods=['POST'])
 def heartbeat():
 
+    logging.debug("Payload = %s",request.form["payload"])
     validate_request(request)
     heartbeat_message = {'text':  'I\'m Alive'}
     return jsonify(heartbeat_message)
