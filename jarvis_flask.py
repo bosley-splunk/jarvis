@@ -7,6 +7,8 @@ import time
 import os
 from configparser import ConfigParser
 import logging
+import logging.handlers
+from logging.config import fileConfig
 from flask import Flask,abort, jsonify, request
 import json
 #import shutil
@@ -22,16 +24,12 @@ APP_CONFIG_FILE = os.path.join(source_path, "jarvis_flask.cfg")
 #  Reading in configs
 app_config = ConfigParser()
 app_config.read(APP_CONFIG_FILE)
-logging_dir=os.path.join(source_path, "jarvis_flask.log")
+logging_cfg=os.path.join(source_path, app_config.get['DEFAULT', 'log_cfg_file'])
 
-
-#  Turn on Logging - cause lord knows I need it
-logging.basicConfig(
-    level=logging.DEBUG,
-    format='%(asctime)s - %(name)s - %(levelname)s - [%(process)d] - (%(funcName)s:%(lineno)s) : %(message)s',
-    filename=logging_dir,
-    filemode='w'
-)
+#  Set Up Syslog Logging - having a hard time writing to a local dir
+#  With flask under apache
+logging.config.fileConfig(log_config)
+logger = logging.getLogger('jarvis')
 
 logging.info("Logging initialized.  Reading in Configs.")
 
