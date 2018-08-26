@@ -50,6 +50,8 @@ def validate_request(request):
     version = "v0"
     request_signature_line = version + ":" + request_timestamp + ":" + request_body
 
+    logging.info("In validation now")
+
     logging.debug("Signature Line is:  %s", request_signature_line)
 
     #is_token_valid = request.form['token'] == app_config.get('Slack_Settings', 'verification_token')
