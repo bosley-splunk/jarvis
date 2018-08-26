@@ -52,24 +52,24 @@ def validate_request(request):
 
     logging.debug("Signature Line is:  %s", request_signature_line)
 
-    is_token_valid = request.form['token'] == app_config.get('Slack_Settings', 'verification_token')
-    is_team_id_valid = request.form['team_id'] == app_config.get('Slack_Settings', 'team_id')
+    #is_token_valid = request.form['token'] == app_config.get('Slack_Settings', 'verification_token')
+    #is_team_id_valid = request.form['team_id'] == app_config.get('Slack_Settings', 'team_id')
 
-    logger.debug('Token validation is:  %s', is_token_valid)
-    logger.debug('Team ID is:  %s', is_team_id_valid)
+    #logger.debug('Token validation is:  %s', is_token_valid)
+    #logger.debug('Team ID is:  %s', is_team_id_valid)
 
-    if (is_token_valid == False) or (is_team_id_valid == False):
-        logger.warning('Invalid request received')
-        logger.debug('Token Expected:  %s    Token Received:  %s',
-                     app_config.get('Slack_Settings','verification_token'),
-                     request.form['token']
+    #if (is_token_valid == False) or (is_team_id_valid == False):
+        #logger.warning('Invalid request received')
+        #logger.debug('Token Expected:  %s    Token Received:  %s',
+        #             app_config.get('Slack_Settings','verification_token'),
+        #            request.form['token']
                      )
 
-        heartbeat_message = {'text':  'Sorry, your call wasn\'t authenticated - please contact your admin'}
-        return jsonify(heartbeat_message)
+        #heartbeat_message = {'text':  'Sorry, your call wasn\'t authenticated - please contact your admin'}
+        #return jsonify(heartbeat_message)
 
-    else:
-        logger.info('Authenticated Request - processing request')
+    #else:
+        #logger.info('Authenticated Request - processing request')
 
 
 #  Routing definitions
