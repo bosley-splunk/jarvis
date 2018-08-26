@@ -25,7 +25,7 @@ app_config.read(APP_CONFIG_FILE)
 logging_dir=os.path.join(source_path, "jarvis_flask.log"
 
 
-#  Turn on Logging - cause lord knows I need it
+#  Turn on Logging - cause lord knows I need  it
 logging.basicConfig(
     level=logging.DEBUG,
     format='%(asctime)s - %(name)s - %(levelname)s - [%(process)d] - (%(funcName)s:%(lineno)s) : %(message)s',
