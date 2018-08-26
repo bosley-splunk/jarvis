@@ -1,0 +1,11 @@
+[DEFAULT]
+source_path = /opt/projects/jarvis/
+database_name = jarvis.db
+database_location = db
+
+[Slack_Settings]
+verification_token = <slacktoken>
+team_id = <slackteamid>
+oauth_key = <slack_oauthkey>
+bot_oauth_key = <slack_bot_oath_key>
+rtm_read_delay = 1
