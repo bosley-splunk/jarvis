@@ -96,7 +96,7 @@ def message_receiver():
 def heartbeat():
 
     test = request.form('payload')
-    logging.debug("Payload = %s", request.form['payload])
+    logging.debug("Payload = %s", request.form['payload'])
     validate_request(request)
     heartbeat_message = {'text':  'I\'m Alive'}
     return jsonify(heartbeat_message)
