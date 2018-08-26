@@ -43,16 +43,16 @@ app = Flask(__name__)
 #  Define functions
 def validate_request(request):
     #  Validate the request is from Slack.
-    internal_slack_signing_secret = app_config.get('Slack_Settings', 'slack_signing_secret')
-    sent_slack_signing_secret = request.headers.get('X-Slack-Signature')
-    request_timestamp = request.headers.get('X-Slack-Request-Timestamp')
-    request_body = request.form["payload"]
-    version = "v0"
-    request_signature_line = version + ":" + request_timestamp + ":" + request_body
+    #internal_slack_signing_secret = app_config.get('Slack_Settings', 'slack_signing_secret')
+    #sent_slack_signing_secret = request.headers.get('X-Slack-Signature')
+    #request_timestamp = request.headers.get('X-Slack-Request-Timestamp')
+    #request_body = request.form["payload"]
+    #version = "v0"
+    #request_signature_line = version + ":" + request_timestamp + ":" + request_body
 
     logging.info("In validation now")
 
-    logging.debug("Signature Line is:  %s", request_signature_line)
+    #logging.debug("Signature Line is:  %s", request_signature_line)
 
     #is_token_valid = request.form['token'] == app_config.get('Slack_Settings', 'verification_token')
     #is_team_id_valid = request.form['team_id'] == app_config.get('Slack_Settings', 'team_id')
