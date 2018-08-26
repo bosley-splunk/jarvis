@@ -73,11 +73,11 @@ def validate_request(request):
     logging.info("Request Signature Line:  %s", encoded_signature_line)
 
     #  Now to hash it
-    hashed_signature = hmac.new(encoded_internal_signing, encoded_signature_line, hashlib.sha256)
+    hashed_signature =  base64.b64encode(hmac.new(encoded_internal_signing, encoded_signature_line, hashlib.sha256))
 
-    test_hashed = base64.b64encode(hashed_signature)
+    #test_hashed = base64.b64encode(hashed_signature)
 
-    logging.info("Calculated Signature:  %s", test_hashed)
+    logging.info("Calculated Signature:  %s", hashed_signature)
     logging.info("Sent Signature:  %s", sent_slack_signature)
 
 
