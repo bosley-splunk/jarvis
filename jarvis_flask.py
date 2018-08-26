@@ -29,7 +29,7 @@ logging_cfg=os.path.join(source_path, logging_file)
 
 #  Set Up Syslog Logging - having a hard time writing to a local dir
 #  With flask under apache
-logging.config.fileConfig(logging_config)
+logging.config.fileConfig(logging_cfg)
 logger = logging.getLogger('jarvis')
 
 logging.info("Logging initialized.  Reading in Configs.")
