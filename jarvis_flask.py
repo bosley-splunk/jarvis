@@ -80,7 +80,7 @@ def validate_request(request):
     #test_hashed = base64.b64encode(hashed_signature)
 
     logging.info("Calculated Signature:  %s", test_signature)
-    logging.info("Sent Signature:  %s", sent_slack_signature)
+    logging.info("Sent Signature:  %s", test_sent)
 
 
 
