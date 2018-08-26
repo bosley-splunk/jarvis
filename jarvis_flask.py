@@ -53,25 +53,20 @@ def validate_request(request):
 
     #  Get the our signing secret from the config
     internal_slack_signing_secret = app_config.get('Slack_Settings', 'slack_signing_secret')
-    internal_slack_signing_secret = internal_slack_signing_secret.encode('utf-8')
 
     #  Get what Slack sent us
     sent_slack_signature = request.headers.get('X-Slack-Signature')
-    sent_slack_signature = sent_slack_signature.encode('utf-8')
 
     request_timestamp = request.headers.get('X-Slack-Request-Timestamp')
-    request_timestamp = request_timestamp.encode('utf-8')
 
     #  Get the body of the request.  This was seriously a pain.
     request_body = request.get_data()
     request_body = request_body.decode('utf-8')
     version = "v0"
-    version = version.encode('utf8')
     separator = ":"
-    separator = separator.encode('utf-8')
 
     #  Build the signature line
-    request_signature_line = version + separator + request_timestamp + separator+ request_body
+    request_signature_line = version + separator + request_timestamp + separator + request_body
 
     logging.info("Request Signature Line:  %s", request_signature_line)
 
