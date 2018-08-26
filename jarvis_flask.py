@@ -19,7 +19,7 @@ Flask container to handle requests from Slack for JARVIS
 APP_CONFIG_FILE = "jarvis_flask.cfg"
 
 
-#  Define functionsddd
+#  Define functions
 def validate_request(request):
     #  Validate the request is from Slack.
     is_token_valid = request.form['token'] == app_config.get('Slack_Settings','verification_token')
@@ -42,12 +42,18 @@ def validate_request(request):
         logger.info('Authenticated Request - processing request')
 
 
-
 #  Routing definitions
-@app.route('/page_message',methods['POST']
+@app.route('/page_message',methods['POST'])
 def page_message():
+    """
+    This will pop up a message box when requesting attention to a case
 
+    :return:
+    """
     validate_request(request)
+
+    #  Parse the payload
+    form_json = json.loads(request.form["payload"])
 
 
 
