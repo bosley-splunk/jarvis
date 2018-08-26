@@ -92,5 +92,5 @@ if __name__ == '__main__':
 
     logging.info("Starting Flask")
 
-   # app = Flask(__name__)
+   app = Flask(__name__)
    # app.run(debug=True)
