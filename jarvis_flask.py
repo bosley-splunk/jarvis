@@ -11,6 +11,10 @@ import logging.handlers
 from logging.config import fileConfig
 from flask import Flask,abort, jsonify, request
 import json
+import hmac
+import hashlib
+import base64
+
 #import shutil
 
 """
@@ -42,17 +46,35 @@ app = Flask(__name__)
 
 #  Define functions
 def validate_request(request):
-    #  Validate the request is from Slack.
+    """Validate the request is truely from Slack
+    See https://api.slack.com/docs/verifying-requests-from-slack for more information
+    This was more of a pain in the butt getting the request from flask :/
+    """
+
+    #  Get the our signing secret from the config
     internal_slack_signing_secret = app_config.get('Slack_Settings', 'slack_signing_secret')
-    sent_slack_signing_secret = request.headers.get('X-Slack-Signature')
+
+    #  Get what Slack sent us
+    sent_slack_signature = request.headers.get('X-Slack-Signature')
     request_timestamp = request.headers.get('X-Slack-Request-Timestamp')
+
+    #  Get the body of the request.  This was seriously a pain.
     request_body = request.get_data()
     request_body = request_body.decode("utf-8")
-
     version = "v0"
+
+    #  Build the signature line
     request_signature_line = version + ":" + request_timestamp + ":" + request_body
 
-    logging.info("Request Signature Line:  %s",request_signature_line)
+    logging.info("Request Signature Line:  %s", request_signature_line)
+
+    #  Now to hash it
+    Request_Signature = hmac.new(internal_slack_signing_secret, request_signature_line, hashlib.sha256)
+
+    logging.info("Calculated Signature:  %s", Request_Signature)
+    logging.info("Sent Signature:  %s", sent_slack_signature)
+
+
 
     #logging.debug("Signature Line is:  %s", request_signature_line)
 
