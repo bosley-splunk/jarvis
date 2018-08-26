@@ -24,7 +24,8 @@ APP_CONFIG_FILE = os.path.join(source_path, "jarvis_flask.cfg")
 #  Reading in configs
 app_config = ConfigParser()
 app_config.read(APP_CONFIG_FILE)
-logging_cfg=os.path.join(source_path, app_config.get['DEFAULT', 'log_cfg_file'])
+logging_file=app_config.get('DEFAULT', 'log_cfg_file')
+logging_cfg=os.path.join(source_path, logging_file)
 
 #  Set Up Syslog Logging - having a hard time writing to a local dir
 #  With flask under apache
