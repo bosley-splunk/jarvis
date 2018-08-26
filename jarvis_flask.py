@@ -52,7 +52,7 @@ def validate_request(request):
     """
 
     #  Get the our signing secret from the config
-    internal_slack_signing_secret = app_config.get('Slack_Settings', 'slack_signing_secret')
+    internal_slack_signing_secret = bytes(app_config.get('Slack_Settings', 'slack_signing_secret'))
 
     #  Get what Slack sent us
     sent_slack_signature = request.headers.get('X-Slack-Signature')
