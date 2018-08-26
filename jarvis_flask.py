@@ -43,11 +43,11 @@ app = Flask(__name__)
 #  Define functions
 def validate_request(request):
     #  Validate the request is from Slack.
-    internal_slack_signing_secret = app_config.get('Slack_Settings', 'slack_signing_secret')
-    sent_slack_signing_secret = request.headers.get('X-Slack-Signature')
-    request_timestamp = request.headers.get('X-Slack-Request-Timestamp')
-    request_body = request.form["payload"]
-    version = "v0"
+    #internal_slack_signing_secret = app_config.get('Slack_Settings', 'slack_signing_secret')
+    #sent_slack_signing_secret = request.headers.get('X-Slack-Signature')
+    #request_timestamp = request.headers.get('X-Slack-Request-Timestamp')
+    #request_body = request.form["payload"]
+    #version = "v0"
     request_signature_line = version + ":" + request_timestamp + ":" + request_body
 
     logging.info("In validation now")
