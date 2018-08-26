@@ -18,6 +18,23 @@ Flask container to handle requests from Slack for JARVIS
 #  Static configs go here
 APP_CONFIG_FILE = "jarvis_flask.cfg"
 
+#  Turn on Logging - cause lord knows I need it
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(asctime)s - %(name)s - %(levelname)s - [%(process)d] - (%(funcName)s:%(lineno)s) : %(message)s',
+    filename='jarvis_flask.log',
+    filemode='w'
+)
+
+logging.info("Logging initialized.  Reading in Configs.")
+app_config = ConfigParser()
+app_config.read(APP_CONFIG_FILE)
+
+logging.info("Starting Flask")
+
+app = Flask(__name__)
+#app.run(debug=True)
+
 
 #  Define functions
 def validate_request(request):
@@ -71,26 +88,11 @@ def heartbeat():
         return jsonify(heartbeat_message)
 
 #   Main execution section below
-if __name__ == '__main__':
+#if __name__ == '__main__':
     """
     Flask is going to be running under Apache and wsgi
     So we don't actually have to fire up the flask server 
     Just have it listening.
     """
 
-    #  Turn on Logging - cause lord knows I need it
-    logging.basicConfig(
-        level=logging.DEBUG,
-        format='%(asctime)s - %(name)s - %(levelname)s - [%(process)d] - (%(funcName)s:%(lineno)s) : %(message)s',
-        filename='jarvis_flask.log',
-        filemode='w'
-    )
 
-    logging.info("Logging initialized.  Reading in Configs.")
-    app_config = ConfigParser()
-    app_config.read(APP_CONFIG_FILE)
-
-    logging.info("Starting Flask")
-
-    app = Flask(__name__)
-    #app.run(debug=True)
