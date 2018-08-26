@@ -105,3 +105,4 @@ venv.bak/
 
 # Jarvis internal stuff
 jarvis_flask.cfg
+*.log
