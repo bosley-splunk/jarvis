@@ -18,17 +18,21 @@ Flask container to handle requests from Slack for JARVIS
 #  Static configs go here
 APP_CONFIG_FILE = "jarvis_flask.cfg"
 
+#  Reading in configs
+app_config = ConfigParser()
+app_config.read(APP_CONFIG_FILE)
+logging_dir=app_config['DEFAULT', 'source_path'] + "jarvis_flask.log"
+
+
 #  Turn on Logging - cause lord knows I need it
 logging.basicConfig(
     level=logging.DEBUG,
     format='%(asctime)s - %(name)s - %(levelname)s - [%(process)d] - (%(funcName)s:%(lineno)s) : %(message)s',
-    filename='jarvis_flask.log',
+    filename=logging_dir,
     filemode='w'
 )
 
 logging.info("Logging initialized.  Reading in Configs.")
-app_config = ConfigParser()
-app_config.read(APP_CONFIG_FILE)
 
 logging.info("Starting Flask")
 
