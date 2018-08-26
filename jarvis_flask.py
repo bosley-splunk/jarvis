@@ -66,7 +66,7 @@ def validate_request(request):
 
     #  Build the signature line
     request_signature_line = version + ":" + request_timestamp + ":" + request_body
-    encoded_line = request_signature_line.encode
+    encoded_line = request_signature_line.encode('utf-8')
 
     logging.info("Request Signature Line:  %s", encoded_line)
 
