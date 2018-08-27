@@ -100,7 +100,12 @@ def message_receiver():
     Opens a dialog with the requester
     """
     validate_request(request)
-    #post_data = request.get_data()
+
+    test = request.form['payload']
+    logging.info("payload:")
+    logging.info(payload)
+
+
     logging.info("Got message sent to the receiver")
     contenttype = request.headers.get('content-type')
     logging.info("Content type = %s", contenttype)
