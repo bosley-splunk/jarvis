@@ -13,10 +13,8 @@ from flask import Flask, abort, jsonify, request
 import hmac
 import hashlib
 import string
-from secrets import choice
+from random import choices
 
-
-# import shutil
 
 """
 Flask container to handle requests from Slack for JARVIS
@@ -128,13 +126,9 @@ def page_cs():
     validate_request(request)
 
     #  Generate random callback_id
-    alphabet = string.ascii_letters + string.digits
-    callback_string = ''.join(choice(alphabet) for i in range(8))
-    callback_id = "page_cs-" + callback_string
+    callback_id = "pager-".join(random.choices(string.ascii_uppercase + string.digits, k=N))
 
     #  Generate the PopUp
-
-
     logging.info("Page Request Received - popping dialog")
     page_dialog = sc.api_call("dialog.open", timeout=None, trigger_id=request.form['trigger_id'],
                               dialog={
