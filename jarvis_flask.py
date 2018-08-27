@@ -98,11 +98,7 @@ def message_receiver():
     """
     validate_request(request)
 
-    message_action = json.loads(request.form["payload"])
-    user_id = message_action["user"]["id"]
 
-    logging.debug("Message Action received:  %s", message_action)
-    logging.debug("UserID:  %s", user_id)
 
 
 
@@ -176,7 +172,7 @@ def page_cs():
         }
     }
 
-    open_dialog = slackclient.api_call("dialog.open", pager_dialog)
+    open_dialog = SlackClient.api_call(open_dialog)
 
     print(open_dialog)
 
