@@ -124,7 +124,7 @@ def page_cs():
 
     trigger_id = request.form['trigger_id']
     logging.debug("Paging request received")
-    logging.debug("Request trigger_id:  %s",trigger_id)
+    logging.debug("Request trigger_id:  %s", trigger_id)
 
 
 
