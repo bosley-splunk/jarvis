@@ -105,6 +105,7 @@ def message_pager(message):
     #  Because of warnings of the real name field being deprecated in the future
     #  Going to do a call to look up the full real name
     full_profile = sc.api_call("users.profile.get", timeoust=None, user='submitter_uid')
+    logging.debug(full_profile)
     full_name = full_profile['real_name']
 
     logging.debug("Setting the following per this request:")
