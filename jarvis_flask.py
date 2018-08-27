@@ -161,9 +161,10 @@ def page_cs():
                                           "label": "Description of issue",
                                           "name": "description",
                                           "hint": "Be descriptive as possible"
-                                      }
+                                      },
+                                  ]
                               }
-                              )
+                        )
 
 
 
