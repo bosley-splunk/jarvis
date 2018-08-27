@@ -107,6 +107,10 @@ def message_receiver():
 
     logging.info("Post data:")
     logging.info(post_data)
+
+    callback_id = request.form['submission']['callback_id']
+    logging.debug("CallbackID = ", callback_id)
+
     if request.form['type'] == "dialog_submission":
         logging.debug("Data sent to us..")
         logging.debug(post_data)
