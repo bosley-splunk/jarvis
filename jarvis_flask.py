@@ -110,9 +110,9 @@ def message_pager(message):
 
     logging.info("Sending update to requester")
     test = sc.api_call("chat.postEphemeral", timeout=None,
-                channel='channel',
+                channel=channel,
                 text="Working on request",
-                user='submitter_uid')
+                user=submitter_uid)
 
     logging.info("Results of sending message")
     logging.info(test)
