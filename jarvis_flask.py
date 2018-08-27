@@ -103,14 +103,23 @@ def message_receiver():
 
     logging.info("Received Message from Slack")
 
-    test_payload = request.form['payload']
-    logging.info(test_payload)
-    payload = json.loads(test_payload)
-    logging.info("Printing just payload")
-    logging.info(payload)
-    test_type = payload['type']
-    logging.info("testing payload type")
-    logging.info(test_type)
+    message = json.loads(request.form['payload'])
+    requestor_id = message["user"]["id"]
+    request_type = message["callback_id"]
+
+    logging.info("Fields extracted:")
+    logging.info("requestor_id:  %s", requestor_id)
+    logging.info("request_type:  %s", request_type)
+
+
+    #test_payload = request.form['payload']
+    #logging.info(test_payload)
+    #payload = json.loads(test_payload)
+    #logging.info("Printing just payload")
+    #logging.info(payload)
+    #test_type = payload['type']
+    #logging.info("testing payload type")
+    #logging.info(test_type)
 
 
 
