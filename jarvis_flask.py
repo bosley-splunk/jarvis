@@ -100,10 +100,10 @@ def message_receiver():
     Opens a dialog with the requester
     """
     validate_request(request)
-
+    post_data = request.get_data()
     logging.info("Got message sent to the receiver")
-    requestaction = json.loads(request.form["payload"])
-    logging.info("Payload received:  ", requestaction)
+    logging.info(post_data)
+
 
     #post_data = request.get_data()
     #post_data = post_data.decode('utf-8')
