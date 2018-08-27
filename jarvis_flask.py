@@ -2,20 +2,20 @@ from slackclient import SlackClient
 import re
 import sqlite3 as lite
 import time
-#import pytz
-#from datetime import datetime
+# import pytz
+# from datetime import datetime
 import os
 from configparser import ConfigParser
 import logging
 import logging.handlers
 from logging.config import fileConfig
-from flask import Flask,abort, jsonify, request
+from flask import Flask, abort, jsonify, request
 import json
 import hmac
 import hashlib
 import base64
 
-#import shutil
+# import shutil
 
 """
 Flask container to handle requests from Slack for JARVIS
@@ -28,8 +28,8 @@ APP_CONFIG_FILE = os.path.join(source_path, "jarvis_flask.cfg")
 #  Reading in configs
 app_config = ConfigParser()
 app_config.read(APP_CONFIG_FILE)
-logging_file=app_config.get('DEFAULT', 'log_cfg_file')
-logging_cfg=os.path.join(source_path, logging_file)
+logging_file = app_config.get('DEFAULT', 'log_cfg_file')
+logging_cfg = os.path.join(source_path, logging_file)
 
 #  Set Up Syslog Logging - having a hard time writing to a local dir
 #  With flask under apache
@@ -42,7 +42,9 @@ sc = SlackClient(app_config.get('Slack_Settings', 'bot_oauth_key'))
 logging.info("Starting Flask")
 
 app = Flask(__name__)
-#app.run(debug=True)
+
+
+# app.run(debug=True)
 
 
 #  Define functions
@@ -100,14 +102,11 @@ def message_receiver():
     validate_request(request)
 
 
-
-
-
 @app.route('/heartbeat', methods=['POST'])
 def heartbeat():
     logging.info("Heartbeat requested")
     validate_request(request)
-    heartbeat_message = {'text':  'I\'m Alive'}
+    heartbeat_message = {'text': 'I\'m Alive'}
     return jsonify(heartbeat_message)
 
 
@@ -121,6 +120,7 @@ def page_cs():
     validate_request(request)
 
     #  Dialog JSON here:
+    logging.info("Page Request Received - popping dialog")
     page_dialog = sc.api_call("dialog.open", timeout=None, trigger_id=request.form['trigger_id'],
                               dialog={
                                   "callback_id": "test123",
@@ -164,22 +164,14 @@ def page_cs():
                                       },
                                   ]
                               }
-                        )
+                              )
 
+    print(page_dialog)
 
-
-
-
-    #test_message = {'text':  'Testing paging command'}
-    #return jsonify(test_message)
-
-
-#   Main execution section below
-#if __name__ == '__main__':
+    #   Main execution section below
+    # if __name__ == '__main__':
     """
     Flask is going to be running under Apache and wsgi
     So we don't actually have to fire up the flask server 
     Just have it listening.
     """
-
-
