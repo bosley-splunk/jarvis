@@ -101,9 +101,9 @@ def message_receiver():
     """
     validate_request(request)
 
-    test = request.form['payload']
-    logging.info("payload:")
-    logging.info(payload)
+    test = request.form['type']
+    logging.info("type:")
+    logging.info(test)
 
 
     logging.info("Got message sent to the receiver")
