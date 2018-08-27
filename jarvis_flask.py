@@ -107,6 +107,7 @@ def message_receiver():
 
 @app.route('/heartbeat', methods=['POST'])
 def heartbeat():
+    logging.info("Heartbeat requested")
     validate_request(request)
     heartbeat_message = {'text':  'I\'m Alive'}
     return jsonify(heartbeat_message)
