@@ -104,6 +104,7 @@ def message_receiver():
     logging.info("Got message sent to the receiver")
     requestaction = json.loads(request.form["payload"])
     logging.info("Payload received:  ", requestaction)
+
     #post_data = request.get_data()
     #post_data = post_data.decode('utf-8')
     #post_data = unquote(post_data)
