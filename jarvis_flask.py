@@ -1,9 +1,10 @@
 from slackclient import SlackClient
 import re
 import sqlite3 as lite
+from sqlite3 import Error
 import time
-# import pytz
-# from datetime import datetime
+from pytz import timezone
+from datetime import datetime
 import os
 from configparser import ConfigParser
 import logging
@@ -87,6 +88,69 @@ def validate_request(request):
         logging.info("Message validated.  Have a great day")
 
 
+def lookup_username(user_id):
+    """
+    Takes the userid and returns the full user name.
+    It accomplishes this by connecting to the slack api using users.info
+    and getting the real_name_normalized from the results
+    This is per Slacks Warning that name will be going away
+    sc = slackclient connection
+    user_id = user id to look up
+    :param sc, user_id:
+    :return user_full_name:
+    """
+
+    logging.info("Looking up user name from Slack API")
+    profile = sc.api_call("users.info", timeout=None, user=user_id)
+    user_full_name = profile['user']['profile']['real_name_normalized']
+
+    return user_full_name
+
+def generate_timestamp():
+    """
+    Generates timestamp for insertion into the DB in epoch format
+    Timezone is set to pacific time for standardization
+    :return:
+    """
+
+    pacific_time = timezone('America/Los Angeles')
+    current_time = datetime.now(pacific_time)
+    timestamp = current_time.timestamp()
+
+    return timestamp
+
+
+def connect_to_db():
+    """
+    Attempts to connect to sqlite db
+    db_path = full path db
+    :param:
+    :return db object:
+    """
+
+    #  Check to ensure db directory exists - building full path
+    db_dir = app_config.get('DEFAULT', 'source_path') + app_config.get('DEFAULT', 'database_location')
+
+    logging.info("Checking to see if db path exists")
+    if not os.path.isdir(db_dir):
+        logging.critical("Database doesn't exist, please run setup.py")
+        return("", 500)
+
+    else:
+        db_path = db_dir + app_config.get('DEFAULT', 'database_name')
+        logging.info("Connecting to DB at %s", db_path)
+
+        try:
+            db = lite.connect(db_path)
+
+        except Error as e:
+            logging.critical("Database connection error: ")
+            logging.critical(e)
+            return("", 500)
+
+        return db
+
+
 def message_pager(message):
     """
     Takes the message, inserts it into the DB and notifies Cloud Support Channel
@@ -97,24 +161,29 @@ def message_pager(message):
 
     #  Extract the required information from the payload
     submitter_uid = message["user"]["id"]
+    submitter_name = lookup_username(submitter_uid)
     case_number = message["submission"]["case_number"]
     case_priority = message["submission"]["priority"]
     case_description = message["submission"]["description"]
     channel = message["channel"]["id"]
 
-    #  Because of warnings of the real name field being deprecated in the future
-    #  Going to do a call to look up the full real name
-    # tc = SlackClient(app_config.get('Slack_Settings', 'bot_oauth_key'))
-    profile = sc.api_call("users.info", timeout=None, user=submitter_uid)
-    submitter_name = profile['user']['profile']['real_name_normalized']
-
     logging.info("Sending update to requester")
-    test = sc.api_call("chat.postEphemeral", timeout=None,
-                channel=channel,
-                text="Working on request",
-                user=submitter_uid)
+    message_response = sc.api_call("chat.postEphemeral", timeout=None,
+                                   channel=channel,
+                                   text="Working on request",
+                                   user=submitter_uid)
 
-    logging.info("Results of sending message: %s", test['ok'])
+    logging.info("Results of sending message: %s", message_response['ok'])
+
+    db = connect_to_db()
+
+    timestamp = generate_timestamp()
+
+    c = db.conn()
+
+    c.execute('''  INSERT INTO TICKET_QUEUE(case_number, creation_timestamp, req_uname, req_uid, priority) 
+                VALUES(?,?,?,?,?)''', case_number, timestamp, submitter_name, submitter_uid, case_priority)
+
 
 
 
@@ -136,7 +205,6 @@ def message_receiver():
     logging.info("Received Message from Slack")
 
     message = json.loads(request.form['payload'])
-    submitter_id = message["user"]["id"]
     request_type = message["callback_id"]
 
     if request_type.startswith('pagerapp'):
