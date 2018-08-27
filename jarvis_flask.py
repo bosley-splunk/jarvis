@@ -102,7 +102,7 @@ def message_receiver():
 
     logging.info("Got message sent to the receiver")
     post_data = request.get_data()
-    #post_data = unquote(post_data)
+    post_data = post_data.decode('utf-8')
 
     logging.info("Post data:")
     logging.info(post_data)
