@@ -76,10 +76,6 @@ def validate_request(request):
     hashed_signature = hmac.new(encoded_internal_signing, encoded_signature_line, hashlib.sha256)
     hexhashedsignature = "v0=" + hashed_signature.hexdigest()
 
-   if hexhashedsignature == sent_slack_signature:
-       logging.info("Signatures match!")
-
-
     #logging.debug("Signature Line is:  %s", request_signature_line)
 
     #is_token_valid = request.form['token'] == app_config.get('Slack_Settings', 'verification_token')
