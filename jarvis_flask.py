@@ -126,7 +126,8 @@ def page_cs():
     validate_request(request)
 
     #  Generate random callback_id
-    callback_id = "pager-".join(random.choices(string.ascii_uppercase + string.digits, k=N))
+    callback_id = ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
+    callback_id = "pagerapp-" + callback_id
 
     #  Generate the PopUp
     logging.info("Page Request Received - popping dialog")
