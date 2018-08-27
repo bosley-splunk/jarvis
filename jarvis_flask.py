@@ -102,6 +102,15 @@ def message_pager(message):
     case_description = message["submission"]["description"]
     channel = message["channel"]["id"]
 
+    logging.debug("Setting the following per this request:")
+    logging.debug("submitter_uid:  %s", submitter_uid)
+    logging.debug("case_number:  %s", case_number)
+    logging.debug("case_priority:  %s", case_priority)
+    logging.debug("case_description:  %s", case_description)
+    logging.debug("full_name:  %s", full_name)
+    logging.debug("Channel:  %s", channel)
+
+
     #  Because of warnings of the real name field being deprecated in the future
     #  Going to do a call to look up the full real name
     full_profile = sc.api_call("users.profile.get", timeout=None, user='submitter_uid')
