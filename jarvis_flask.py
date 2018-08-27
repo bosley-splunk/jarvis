@@ -102,23 +102,21 @@ def message_pager(message):
     case_description = message["submission"]["description"]
     channel = message["channel"]["id"]
 
+    #  Because of warnings of the real name field being deprecated in the future
+    #  Going to do a call to look up the full real name
+    # tc = SlackClient(app_config.get('Slack_Settings', 'bot_oauth_key'))
+    profile = sc.api_call("users.info", timeout=None, user=submitter_uid)
+    submitter_name = profile['user']['real_name_normalized']
+
     logging.debug("Setting the following per this request:")
     logging.debug("submitter_uid:  %s", submitter_uid)
     logging.debug("case_number:  %s", case_number)
     logging.debug("case_priority:  %s", case_priority)
     logging.debug("case_description:  %s", case_description)
     logging.debug("Channel:  %s", channel)
+    logging.debug("submitter_name:  %s", submitter_name)
 
-    #  Because of warnings of the real name field being deprecated in the future
-    #  Going to do a call to look up the full real name
 
-    logging.info(app_config.get('Slack_Settings', 'bot_oauth_key'))
-    tc = SlackClient(app_config.get('Slack_Settings', 'bot_oauth_key'))
-
-    profile=tc.api_call("users.info", timeout=None, user=submitter_uid)
-
-    logging.info("UserProfile:")
-    logging.info(profile)
 
     #logging.debug("full_name:  %s", full_name)
 
