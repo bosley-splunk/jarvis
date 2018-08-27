@@ -106,9 +106,9 @@ def message_receiver():
     logging.info(test)
 
 
-    logging.info("Got message sent to the receiver")
-    contenttype = request.headers.get('content-type')
-    logging.info("Content type = %s", contenttype)
+    #logging.info("Got message sent to the receiver")
+    ##contenttype = request.headers.get('content-type')
+    #logging.info("Content type = %s", contenttype)
 
 
     #post_data = request.get_data()
