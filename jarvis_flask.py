@@ -87,7 +87,8 @@ def validate_request(request):
     else:
         logging.info("Message validated.  Have a great day")
 
-#  Routing definitions
+
+#  Routing definitions go here
 #  Message Receiver end point for custom dialogs
 @app.route('/message_receiver', methods=['Post'])
 def message_receiver():
@@ -120,6 +121,10 @@ def page_cs():
     :return:
     """
     validate_request(request)
+
+    trigger_id = request.form['trigger_id']
+    logging.debug("Paging request received")
+    logging.debug("Request trigger_id:  %s",trigger_id)
 
 
 
