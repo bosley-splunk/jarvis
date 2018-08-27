@@ -112,7 +112,7 @@ def message_receiver():
         logging.debug(post_data)
 
         #  Check Callback ID to route to the right app
-        callback_id = request.from['callback_id']
+        callback_id = request.form['callback_id']
         if callback_id.startswith('pagerapp')
             logging.debug("This is a call to the pager app")
 
