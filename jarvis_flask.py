@@ -122,6 +122,7 @@ def message_pager(message):
 
 
 
+
 #  Routing definitions go here
 #  Message Receiver end point for custom dialogs
 @app.route('/message_receiver', methods=['Post'])
@@ -144,6 +145,7 @@ def message_receiver():
 
     if request_type.startswith('pagerapp'):
         logging.info("Received request for the pager app")
+        message_pager(message)
 
     return ('', 200)
 
