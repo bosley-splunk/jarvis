@@ -12,8 +12,7 @@ from logging.config import fileConfig
 from flask import Flask, abort, jsonify, request
 import hmac
 import hashlib
-import string
-import random
+from random import randint
 
 
 """
@@ -126,14 +125,13 @@ def page_cs():
     validate_request(request)
 
     #  Generate random callback_id
-    callback_id = ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
-    callback_id = "pagerapp-" + callback_id
+    callback_id = "pagerapp-" + randint(10000, 99999)
 
     #  Generate the PopUp
     logging.info("Page Request Received - popping dialog")
     page_dialog = sc.api_call("dialog.open", timeout=None, trigger_id=request.form['trigger_id'],
                               dialog={
-                                  "callback_id": 'callback_id',
+                                  "callback_id": callback_id,
                                   "title": "Notify Cloud Support",
                                   "submit_label": "Submit",
                                   "notify_on_cancel": False,
