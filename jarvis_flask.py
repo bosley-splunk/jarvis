@@ -111,6 +111,11 @@ def message_receiver():
         logging.debug("Data sent to us..")
         logging.debug(post_data)
 
+        #  Check Callback ID to route to the right app
+        callback_id = requset.from['callback_id']
+        if callback_id.startswith('pagerapp')
+            logging.debug("This is a call to the pager app")
+
 
 @app.route('/heartbeat', methods=['POST'])
 def heartbeat():
