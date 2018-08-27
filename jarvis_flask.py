@@ -125,8 +125,8 @@ def page_cs():
 
     #  Dialog JSON here:
     pager_dialog = {
-        "trigger_id":  'trigger_id',
-        "dialog": {
+        trigger_id = 'trigger_id',
+        "dialog"={
             "callback_id":  "test123",
             "title":  "Page Cloud Support",
             "submit_label": "Submit",
@@ -175,6 +175,7 @@ def page_cs():
     sc = SlackClient(app_config.get('Slack_Settings', 'bot_oauth_key'))
 
     open_dialog = sc.api_call("dialog.open", pager_dialog)
+
 
     print(open_dialog)
 
