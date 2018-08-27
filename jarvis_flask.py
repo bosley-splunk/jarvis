@@ -113,6 +113,7 @@ def heartbeat():
     heartbeat_message = {'text':  'I\'m Alive'}
     return jsonify(heartbeat_message)
 
+
 @app.route('/page_cs', methods=['POST'])
 def page_cs():
     """
@@ -126,6 +127,8 @@ def page_cs():
     logging.debug("Paging request received")
     logging.debug("Request trigger_id:  %s", trigger_id)
 
+    test_message = {'text':  'Testing paging command'}
+    return jsonify(test_message)
 
 
 #   Main execution section below
