@@ -114,8 +114,8 @@ def message_pager(message):
                 text="Working on request",
                 user=submitter_uid)
 
-    logging.info("Results of sending message")
-    logging.info(test)
+    logging.info("Results of sending message: %s", test['ok'])
+
 
 
 
