@@ -55,10 +55,6 @@ def validate_request(request):
     :param request:
     :return:
     """
-
-    #  Set the return value
-    validated = False
-
     #  Get the our signing secret from the config
     internal_slack_signing_secret = app_config.get('Slack_Settings', 'slack_signing_secret')
     encoded_internal_signing = internal_slack_signing_secret.encode()
@@ -91,13 +87,52 @@ def validate_request(request):
         logging.info("Message validated.  Have a great day")
 
 
+def message_pager(message):
+    """
+    Takes the message, inserts it into the DB and notifies Cloud Support Channel
+    Lets the requester know it's been handled
+    :param message:
+    :return:
+    """
+
+    #  Extract the required information from the payload
+    submitter_uid = message["user"]["id"]
+    case_number = message["submission"]["case_number"]
+    case_priority = message["submission"]["priority"]
+    case_description = message["submission"]["description"]
+    channel = message["channel"]["id"]
+
+    #  Because of warnings of the real name field being deprecated in the future
+    #  Going to do a call to look up the full real name
+    full_profile = sc.api_call("users.profile.get", timeoust=None, user='submitter_uid')
+    full_name = full_profile['user']['real_name']
+
+    logging.debug("Setting the following per this request:")
+    logging.debug("submitter_uid:  %s", submitter_uid)
+    logging.debug("case_number:  %s", case_number)
+    logging.debug("case_priority:  %s", case_priority)
+    logging.debug("case_description:  %s", case_description)
+    logging.debug("full_name:  %s", full_name)
+
+    sc.api_call("chat.postEphemeral", timeout=None,
+                channel='channel',
+                text=":loading:  Working on request",
+                user='submitter_uid')
+
+
+
+
 #  Routing definitions go here
 #  Message Receiver end point for custom dialogs
 @app.route('/message_receiver', methods=['Post'])
 def message_receiver():
-    """Processes the incoming custom message
-    Validates the sender
-    Opens a dialog with the requester
+    """
+    Message Endpoint from Slack
+        Validates the incoming message
+        Pulls the callback_id to determine what app to route to
+        Hands off to the specific def for that app to handle
+
+    :return:
     """
     validate_request(request)
 
