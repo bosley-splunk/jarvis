@@ -13,6 +13,7 @@ from flask import Flask, abort, jsonify, request
 import hmac
 import hashlib
 from random import randint
+from urllib.parse import unquote
 
 
 """
@@ -99,9 +100,12 @@ def message_receiver():
     """
     validate_request(request)
 
+    logging.info("Got message sent to the receiver")
     post_data = request.get_data()
-    post_data = post_data.decode('utf-8')
+    post_data = unquote(post_data)
 
+    logging.info("Post data:")
+    logging.info(post_data)
     if request.form['type'] == "dialog_submission":
         logging.debug("Data sent to us..")
         logging.debug(post_data)
