@@ -165,8 +165,9 @@ def page_cs():
                                   ]
                               }
                               )
+    return('', 200)
 
-    print(page_dialog)
+
 
     #   Main execution section below
     # if __name__ == '__main__':
