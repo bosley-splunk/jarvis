@@ -172,7 +172,9 @@ def page_cs():
         }
     }
 
-    open_dialog = SlackClient.api_call("dialog.open", pager_dialog)
+    slack_connect = SlackClient(app_config.get(bot_oauth_key))
+
+    open_dialog = slack_connect.api_call('dialog.open', pager_dialog)
 
     print(open_dialog)
 
