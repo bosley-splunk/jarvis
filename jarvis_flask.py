@@ -76,8 +76,8 @@ def validate_request(request):
     hashed_signature = hmac.new(encoded_internal_signing, encoded_signature_line, hashlib.sha256)
     hexhashedsignature = "v0=" + hashed_signature.hexdigest()
 
-    if hmac.compare_digest(hashed_signature,sent_slack_signature):
-        logging.info("Validated request..")
+   if hexhashedsignature == sent_slack_signature:
+       logging.info("Signatures match!")
 
 
     #logging.debug("Signature Line is:  %s", request_signature_line)
