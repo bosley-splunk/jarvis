@@ -108,10 +108,10 @@ def message_pager(message):
     profile = sc.api_call("users.info", timeout=None, user=submitter_uid)
     submitter_name = profile['user']['profile']['real_name_normalized']
 
-
+    logging.info("Sending update to requester")
     sc.api_call("chat.postEphemeral", timeout=None,
                 channel='channel',
-                text=":loading:  Working on request",
+                text="Working on request",
                 user='submitter_uid')
 
 
