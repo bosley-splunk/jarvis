@@ -102,6 +102,7 @@ def message_receiver():
     validate_request(request)
 
     post_data = request.get_data()
+    post_data = post_data.decode('utf-8')
 
     logging.debug("Data sent to us..")
     logging.debug(post_data)
