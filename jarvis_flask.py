@@ -115,7 +115,7 @@ def message_pager(message):
     #  Going to do a call to look up the full real name
     #sc = SlackClient(app_config.get('Slack_Settings', 'bot_oauth_key'))
 
-    print(app_config.get('Slack_Settings', 'bot_oauth_key'))
+    logging.info(app_config.get('Slack_Settings', 'bot_oauth_key'))
 
     #full_profile = sc.api_call("users.profile.get", timeout=None, user='submitter_uid')
     #logging.debug(full_profile)
