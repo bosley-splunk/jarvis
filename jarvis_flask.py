@@ -10,10 +10,9 @@ import logging
 import logging.handlers
 from logging.config import fileConfig
 from flask import Flask, abort, jsonify, request
-import json
 import hmac
 import hashlib
-import base64
+import string
 
 # import shutil
 
@@ -104,6 +103,8 @@ def message_receiver():
     post_data = request.get_data()
     post_data = post_data.decode('utf-8')
 
+    if request.form['type'] == "dialog_submission":
+
     logging.debug("Data sent to us..")
     logging.debug(post_data)
 
@@ -125,11 +126,18 @@ def page_cs():
     """
     validate_request(request)
 
-    #  Dialog JSON here:
+    #  Generate random callback_id
+    alphabet = string.ascii_letters + string.digits
+    callback_string = ''.join(choice(alphabet) for i in range(8))
+    callback_id = "page_cs-" + callback_string
+
+    #  Generate the PopUp
+
+
     logging.info("Page Request Received - popping dialog")
     page_dialog = sc.api_call("dialog.open", timeout=None, trigger_id=request.form['trigger_id'],
                               dialog={
-                                  "callback_id": "test123",
+                                  "callback_id": 'callback_id',
                                   "title": "Notify Cloud Support",
                                   "submit_label": "Submit",
                                   "notify_on_cancel": False,
