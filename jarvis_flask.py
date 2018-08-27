@@ -113,7 +113,9 @@ def message_pager(message):
 
     #  Because of warnings of the real name field being deprecated in the future
     #  Going to do a call to look up the full real name
-    full_profile = sc.api_call("users.profile.get", timeout=None, user='submitter_uid')
+    sc = SlackClient(app_config.get('Slack_Settings', 'bot_oauth_key'))
+
+    ull_profile = sc.api_call("users.profile.get", timeout=None, user='submitter_uid')
     logging.debug(full_profile)
     full_name = full_profile['profile']['real_name']
 
