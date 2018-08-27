@@ -13,6 +13,7 @@ from flask import Flask, abort, jsonify, request
 import hmac
 import hashlib
 from random import randint
+import json
 from urllib.parse import unquote
 
 
@@ -101,25 +102,13 @@ def message_receiver():
     validate_request(request)
 
     logging.info("Got message sent to the receiver")
-    post_data = request.get_data()
-    post_data = post_data.decode('utf-8')
-    post_data = unquote(post_data)
-
-    logging.info("Post data:")
-    logging.info(post_data)
-
-    callback_id = request.form['submission']['callback_id']
-    logging.debug("CallbackID = ", callback_id)
-
-    if request.form['type'] == "dialog_submission":
-        logging.debug("Data sent to us..")
-        logging.debug(post_data)
-
-        #  Check Callback ID to route to the right app
-        callback_id = request.form['submission']['callback_id']
-        logging.debug("CallbackID = ", callback_id)
-        if callback_id.startswith("pagerapp-"):
-            logging.debug("This is a call to the pager app")
+    requestaction = json.loads(request.form["payload"])
+    logging.info("Payload received:  ", requestaction)
+    #post_data = request.get_data()
+    #post_data = post_data.decode('utf-8')
+    #post_data = unquote(post_data)
+    #logging.info("Post data:")
+    #logging.info(post_data)
 
 
 @app.route('/heartbeat', methods=['POST'])
