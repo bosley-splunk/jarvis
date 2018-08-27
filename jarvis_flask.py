@@ -104,9 +104,8 @@ def message_receiver():
     post_data = post_data.decode('utf-8')
 
     if request.form['type'] == "dialog_submission":
-
-    logging.debug("Data sent to us..")
-    logging.debug(post_data)
+        logging.debug("Data sent to us..")
+        logging.debug(post_data)
 
 
 @app.route('/heartbeat', methods=['POST'])
