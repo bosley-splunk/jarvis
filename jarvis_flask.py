@@ -104,11 +104,15 @@ def message_receiver():
     logging.info("Received Message from Slack")
 
     test_payload = request.form['payload']
-    test_type = request.form['payload']['type']
-    logging.info("test payload:")
     logging.info(test_payload)
-    logging.info("test type:")
+    payload = json.loads(test_payload)
+    logging.info("Printing just payload")
+    logging.info(payload)
+    test_type = payload['type']
+    logging.info("testing payload type")
     logging.info(test_type)
+
+
 
     return ('', 200)
     #logging.info("Got message sent to the receiver")
