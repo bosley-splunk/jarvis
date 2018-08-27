@@ -127,8 +127,63 @@ def page_cs():
     logging.debug("Paging request received")
     logging.debug("Request trigger_id:  %s", trigger_id)
 
-    test_message = {'text':  'Testing paging command'}
-    return jsonify(test_message)
+    #  Dialog JSON here:
+    pager_dialog = {
+        "trigger_id":  'trigger_id',
+        "dialog": {
+            "callback_id":  "test123",
+            "title":  "Page Cloud Support",
+            "submit_label": "Submit",
+            "notify_on_cancel": False,
+            "elements": [
+                {
+                    "type":  "text",
+                    "label":  "Case Number",
+                    "name":  "case_number"
+                },
+                {
+                    "type":  "select",
+                    "label":  "Priority",
+                    "name":  "priority",
+                    "options":  [
+                        {
+                            "label":  "P1",
+                            "value":  "P1"
+                        },
+                        {
+                            "label":  "P2",
+                            "value":  "P2"
+                        },
+                        {
+                            "label":  "P3",
+                            "value":  "P3"
+                        },
+                        {
+                            "label":  "P4",
+                            "value":  "P4"
+                        }
+                    ]
+
+                },
+                {
+                    "type":  "textarea",
+                    "label":  "Description",
+                    "name":  "description",
+                    "hint":  "Description of the issue"
+                }
+            ]
+
+        }
+    }
+
+    open_dialog = slack_client.api_call("dialog.open", pager_dialog)
+
+    print(open_dialog)
+
+
+
+    #test_message = {'text':  'Testing paging command'}
+    #return jsonify(test_message)
 
 
 #   Main execution section below
