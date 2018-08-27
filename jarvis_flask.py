@@ -172,7 +172,7 @@ def page_cs():
         }
     }
 
-    open_dialog = SlackClient.api_call(pager_dialog)
+    open_dialog = SlackClient.api_call("dialog.open", pager_dialog)
 
     print(open_dialog)
 
