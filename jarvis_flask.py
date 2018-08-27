@@ -13,7 +13,7 @@ from flask import Flask, abort, jsonify, request
 import hmac
 import hashlib
 import string
-from random import choices
+import random
 
 
 """
