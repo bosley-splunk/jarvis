@@ -36,7 +36,8 @@ logging_cfg=os.path.join(source_path, logging_file)
 logging.config.fileConfig(logging_cfg)
 logger = logging.getLogger('jarvis')
 
-logging.info("Logging initialized.  Reading in Configs.")
+logging.info("Logging initialized - Setting up slack client")
+sc = SlackClient(app_config.get('Slack_Settings', 'bot_oauth_key'))
 
 logging.info("Starting Flask")
 
@@ -119,68 +120,52 @@ def page_cs():
     """
     validate_request(request)
 
-    trigger_id = request.form['trigger_id']
-    logging.debug("Paging request received")
-    logging.debug("Request trigger_id:  %s", trigger_id)
-
     #  Dialog JSON here:
-    sc = SlackClient(app_config.get('Slack_Settings', 'bot_oauth_key'))
-
-    open_dialog = sc.api_call(
-        "dialog.open",
-        trigger_id=request.fom['trigger_id'],
-        "dialog" = {
-            "callback_id":  "test123",
-            "title":  "Page Cloud Support",
-            "submit_label": "Submit",
-            "notify_on_cancel": False,
-            "elements": [
-                {
-                    "type":  "text",
-                    "label":  "Case Number",
-                    "name":  "case_number"
-                },
-                {
-                    "type":  "select",
-                    "label":  "Priority",
-                    "name":  "priority",
-                    "options":  [
-                        {
-                            "label":  "P1",
-                            "value":  "P1"
-                        },
-                        {
-                            "label":  "P2",
-                            "value":  "P2"
-                        },
-                        {
-                            "label":  "P3",
-                            "value":  "P3"
-                        },
-                        {
-                            "label":  "P4",
-                            "value":  "P4"
-                        }
-                    ]
-
-                },
-                {
-                    "type":  "textarea",
-                    "label":  "Description",
-                    "name":  "description",
-                    "hint":  "Description of the issue"
-                }
-            ]
-
-        }
-    )
-
-    sc = SlackClient(app_config.get('Slack_Settings', 'bot_oauth_key'))
-
-    ("dialog.open", pager_dialog)
+    page_dialog = sc.api_call("dialog.open", timeout=None, trigger_id=request.form['trigger_id'],
+                              dialog={
+                                  "callback_id": "test123",
+                                  "title": "Notify Cloud Support",
+                                  "submit_label": "Submit",
+                                  "notify_on_cancel": False,
+                                  "elements": [
+                                      {
+                                          "type": "text",
+                                          "label": "Case Number",
+                                          "name": "case_number"
+                                      },
+                                      {
+                                          "type": "select",
+                                          "label": "Priority",
+                                          "name": "priority",
+                                          "options": [
+                                              {
+                                                  "label": "P1",
+                                                  "value": "P1"
+                                              },
+                                              {
+                                                  "label": "P2",
+                                                  "value": "P2"
+                                              },
+                                              {
+                                                  "label": "P3",
+                                                  "value": "P3"
+                                              },
+                                              {
+                                                  "label": "P4",
+                                                  "value": "P4"
+                                              }
+                                          ]
+                                      },
+                                      {
+                                          "type": "textarea",
+                                          "label": "Description of issue",
+                                          "name": "description",
+                                          "hint": "Be descriptive as possible"
+                                      }
+                              }
+                              )
 
 
-    print(open_dialog)
 
 
 
