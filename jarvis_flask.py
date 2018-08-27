@@ -101,6 +101,11 @@ def message_receiver():
     """
     validate_request(request)
 
+    post_data = request.get_data()
+
+    logging.debug("Data sent to us..")
+    logging.debug(post_data)
+
 
 @app.route('/heartbeat', methods=['POST'])
 def heartbeat():
