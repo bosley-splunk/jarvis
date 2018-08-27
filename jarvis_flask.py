@@ -101,9 +101,11 @@ def message_receiver():
     """
     validate_request(request)
 
-    test = request.form['type']
-    logging.info("type:")
-    logging.info(test)
+    logging.info("Received Message from Slack")
+
+    test_payload = request.form['payload']
+    logging.info("test payload:")
+    logging.info(test_payload)
 
 
     #logging.info("Got message sent to the receiver")
