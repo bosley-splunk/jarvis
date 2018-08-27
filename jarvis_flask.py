@@ -179,10 +179,11 @@ def message_pager(message):
 
     timestamp = generate_timestamp()
 
-    c = db.conn()
+    c = db.cursor()
 
     c.execute('''  INSERT INTO TICKET_QUEUE(case_number, creation_timestamp, req_uname, req_uid, priority) 
-                VALUES(?,?,?,?,?)''', case_number, timestamp, submitter_name, submitter_uid, case_priority)
+                VALUES(?,?,?,?,?)''', (case_number, timestamp, submitter_name, submitter_uid, case_priority))
+
 
 
 
