@@ -2,53 +2,49 @@ from slackclient import SlackClient
 import re
 import sqlite3 as lite
 from sqlite3 import Error
-import time
 from pytz import timezone
 from datetime import datetime
 import os
 from configparser import ConfigParser
 import logging
-import logging.handlers
 from logging.config import fileConfig
 from flask import Flask, abort, jsonify, request
 import hmac
 import hashlib
 from random import randint
 import json
-from urllib.parse import unquote
-
-
-"""
-Flask container to handle requests from Slack for JARVIS
-"""
-
-#  Static configs go here
-source_path = "/opt/projects/jarvis/"
-APP_CONFIG_FILE = os.path.join(source_path, "jarvis_flask.cfg")
-
-#  Reading in configs
-app_config = ConfigParser()
-app_config.read(APP_CONFIG_FILE)
-logging_file = app_config.get('DEFAULT', 'log_cfg_file')
-logging_cfg = os.path.join(source_path, logging_file)
-
-#  Set Up Syslog Logging - having a hard time writing to a local dir
-#  With flask under apache
-logging.config.fileConfig(logging_cfg)
-logger = logging.getLogger('jarvis')
-
-logging.info("Logging initialized - Setting up slack client")
-sc = SlackClient(app_config.get('Slack_Settings', 'bot_oauth_key'))
-
-logging.info("Starting Flask")
+from logging.handlers import TimedRotatingFileHandler
 
 app = Flask(__name__)
 
 
-# app.run(debug=True)
-
-
 #  Define functions
+def logging_setup(log_directory):
+    """
+    Sets up rotating log under log_directory
+    :param log_directory:
+    :return:
+    """
+    log_file = "jarvis.log"
+    log_path = os.path.join(log_directory, log_file)
+
+    if not os.path.isdir(log_directory):
+        os.mkdir(log_directory)
+
+
+    formatter = logging.Formatter('%(name)s - %(levelname)s - [%(process)d] (%(funcName)s:%(lineno)s) : %(message)s')
+    logging_level = logging.DEBUG
+    handler = logging.handlers.TimedRotatingFileHandler(log_path,
+                                                        when='midnight',
+                                                        backupCount=5)
+    handler.setFormatter(formatter)
+    logger = logging.getLogger()
+    logger.addHandler(handler)
+    logger.setLevel(logging_level)
+
+    return logger
+
+
 def validate_request(request):
     """
     Validates the request is officially from slack.  See https://api.slack.com/docs/verifying-requests-from-slack
@@ -285,11 +281,32 @@ def page_cs():
     return('', 200)
 
 
+#  Main execution section below
+if __name__ == '__main__':
+    """
+    Moving to Flask stand alone vs under Apache
+    """
 
-    #   Main execution section below
-    # if __name__ == '__main__':
-    """
-    Flask is going to be running under Apache and wsgi
-    So we don't actually have to fire up the flask server 
-    Just have it listening.
-    """
+    #  Static configs go here
+    APP_CONFIG_FILE = "jarvis_flask.cfg"
+
+    #  Reading in configs
+    app_config = ConfigParser()
+    app_config.read(APP_CONFIG_FILE)
+    log_dir = app_config.get('DEFAULT', 'log_directory')
+
+    #  Set up logging
+    logging = logging_setup(log_dir)
+    logging.info("Logging initialized - Setting up slack client")
+
+    sc = SlackClient(app_config.get('Slack_Settings', 'bot_oauth_key'))
+
+    logging.info("Starting Flask")
+
+    if app_config.get('DEFAULT', 'remote_environment') == True:
+        cert = app_config.get('SSL', 'cert')
+        key = app_config.get('SSL', 'key')
+        app.run(ssl_context=(app_config.get('SSL', 'cert'), app_config.get('SSL', 'key')))
+
+    else:
+        app.run(debug=True)
