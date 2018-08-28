@@ -129,7 +129,7 @@ def connect_to_db():
     """
 
     #  Check to ensure db directory exists - building full path
-    db_dir = app_config.get('DEFAULT', 'source_path') + app_config.get('DEFAULT', 'database_location')
+    db_dir = os.path.join(app_config.get('DEFAULT', 'source_path'), app_config.get('DEFAULT', 'database_location'))
 
     logging.info("Checking to see if db path exists")
     if not os.path.isdir(db_dir):
@@ -137,7 +137,7 @@ def connect_to_db():
         return("", 500)
 
     else:
-        db_path = db_dir + app_config.get('DEFAULT', 'database_name')
+        db_path = os.path.join(db_dir + app_config.get('DEFAULT', 'database_name'))
         logging.info("Connecting to DB at %s", db_path)
 
         try:
