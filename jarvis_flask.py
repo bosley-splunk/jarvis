@@ -113,7 +113,7 @@ def generate_timestamp():
     :return:
     """
 
-    pacific_time = timezone('America/Los Angeles')
+    pacific_time = timezone('America/Los_Angeles')
     current_time = datetime.now(pacific_time)
     timestamp = current_time.timestamp()
 
