@@ -137,7 +137,7 @@ def connect_to_db():
         return("", 500)
 
     else:
-        db_path = os.path.join(db_dir + app_config.get('DEFAULT', 'database_name'))
+        db_path = os.path.join(db_dir. app_config.get('DEFAULT', 'database_name'))
         logging.info("Connecting to DB at %s", db_path)
 
         try:
