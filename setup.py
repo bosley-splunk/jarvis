@@ -143,9 +143,9 @@ if __name__ == '__main__':
 
     logging.info("Logging initialized.  Reading in Configs.")
 
-    #  Read in config file - jarvis_flask.cfg
+    #  Read in config file - jarvis.cfg
     app_config = ConfigParser()
-    app_config.read('jarvis_flask.cfg')
+    app_config.read('jarvis.cfg')
 
     #  Setup DB stuff
     logging.debug("Reading in various settings")

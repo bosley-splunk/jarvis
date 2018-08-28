@@ -31,7 +31,6 @@ def logging_setup(log_directory):
     if not os.path.isdir(log_directory):
         os.mkdir(log_directory)
 
-
     formatter = logging.Formatter('%(name)s - %(levelname)s - [%(process)d] (%(funcName)s:%(lineno)s) : %(message)s')
     logging_level = logging.DEBUG
     handler = logging.handlers.TimedRotatingFileHandler(log_path,
@@ -288,7 +287,7 @@ if __name__ == '__main__':
     """
 
     #  Static configs go here
-    APP_CONFIG_FILE = "jarvis_flask.cfg"
+    APP_CONFIG_FILE = "jarvis.cfg"
 
     #  Reading in configs
     app_config = ConfigParser()
